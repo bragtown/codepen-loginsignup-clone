@@ -96,7 +96,7 @@ codepen.api.login = function(user) {
 	$.each(users, function(index, stored_user) {
 		if (user.username == stored_user.username && user.password == stored_user.password) {
 			response.success = true;
-			response.error = '';
+			response.error = 'Login successful!';
 			return false;
 		}
 		response.error = 'No user found by that username/password';

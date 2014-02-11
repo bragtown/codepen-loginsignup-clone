@@ -30,6 +30,7 @@ Reponse Objects:
 
 
 $('document').ready(function() {
+	console.log('hey');
 	$('.signup-form').hide(); //hides the sing up form when the page loads
 	var hideLoginShowSignup = function(){
 		$('.signup-form').show();  //show's the sing up form
@@ -51,10 +52,14 @@ $('document').ready(function() {
 		showLoginHideSignup();
 	});
 	$('.btn-login').on('click', function(){
-		var user = {														//creates an object to take in a username and password
-			username: $('#login-username-field').val(),
-			password: $('#login-password-field').val()
-		}
+		// var user = {														//creates an object to take in a username and password
+		// 	username: $('#login-username-field').val(),
+		// 	password: $('#login-password-field').val()
+		// }
+		var user = Object.create(NewUser)														//creates an object to take in a username and password
+		user.username = $('#login-username-field').val();
+		user.password = $('#login-password-field').val();
+
 		var answer = codepen.api.login(user);								//sends the object to the server to see if the user can login
 		$('#login-password-field').val('');									//clears the password and username fields
 		$('#login-username-field').val('');
@@ -63,16 +68,23 @@ $('document').ready(function() {
 	$('.btn-signup').on('click', function(){
 		
 		if($('#signup-password-field1').val() === $('#signup-password-field2').val()){		
-			var namearray = $('#signup-name-field').val().split(" ")
-			var user = {
-				name: {
-					firstname: namearray[0],
-					lastname: namearray[1] 
-				},
-				email: $('#signup-email-field').val(),
-				username: $('#signup-username-field').val(),
-				password: $('#signup-password-field1').val(),
-			}
+			var namearray = $('#signup-name-field').val().split(" ");
+			var user = Object.create(NewUser);
+			user.firstname = namearray[0];
+			user.lastname = namearray[1];
+			user.email = $('#signup-email-field').val();
+			user.username = $('#signup-username-field').val();
+			user.password = $('#signup-password-field1').val();
+		
+			// var user = {
+			// 	name: {
+			// 		firstname: namearray[0],
+			// 		lastname: namearray[1] 
+			// 	},
+			// 	email: $('#signup-email-field').val(),
+			// 	username: $('#signup-username-field').val(),
+			// 	password: $('#signup-password-field1').val(),
+			// }
 			var answer = codepen.api.signup(user);
 			console.log($('#signup-password-field1').val());
 			alert(answer.error);
@@ -82,7 +94,26 @@ $('document').ready(function() {
 			alert('please make your passwords match');
 		}
 	});
+	codepen.objects.User = {
+		name: null,
+		email: null,
+		username: null,
+		password: null,
+		is_logged_in: false
+	};
+	var NewUser = Object.create(codepen.objects.User, {
+		firstname: {
+			writable: true,
+			enumerable: true,
+			value: ''
+		},
+		lastname: {
+			writable: true,
+			enumerable: true,
+			value: ''
+		}
+	});
 
 
 
-});
+});1

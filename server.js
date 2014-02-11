@@ -104,4 +104,3 @@ codepen.api.login = function(user) {
 	return response;
 }
 
-codepen.objects = {};
